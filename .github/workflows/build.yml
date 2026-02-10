@@ -1,0 +1,63 @@
+name: Build Apps
+
+on: [push]
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build macOS app (unsigned)
+        run: npx electron-builder --mac --publish=never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+          
+      - name: Upload macOS app
+        uses: actions/upload-artifact@v4
+        with:
+          name: macOS-app
+          path: |
+            dist/*.dmg
+            dist/*.zip
+          if-no-files-found: ignore
+
+  build-win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build Windows app
+        run: npx electron-builder --win portable --publish=never
+        
+      - name: Check what was built
+        shell: cmd
+        run: |
+          echo "Contents of dist folder:"
+          dir dist /s /b || echo "No dist folder found"
+          echo "Contents of root:"
+          dir /b
+        
+      - name: Upload Windows app
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows-app
+          path: |
+            dist/
+          if-no-files-found: warn

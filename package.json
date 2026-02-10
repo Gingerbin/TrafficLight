@@ -1,0 +1,39 @@
+{
+  "name": "traffic-light",
+  "version": "1.0.0",
+  "description": "Traffic Light Timer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.yourname.trafficlight",
+    "productName": "Traffic Light",
+    "directories": {
+        "output": "dist"
+    },
+    "win": {
+        "target": "portable"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "renderer.js",
+      "styles.css",
+      "package.json"
+    ],
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "portable"
+    }
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  }
+}
