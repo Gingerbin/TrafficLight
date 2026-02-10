@@ -1,0 +1,50 @@
+name: Build Apps
+
+on: [push]
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build macOS app
+        run: npx electron-builder --mac
+        
+      - name: Upload macOS app
+        uses: actions/upload-artifact@v3
+        with:
+          name: macOS-app
+          path: |
+            dist/*.dmg
+            dist/*.zip
+
+  build-win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build Windows app
+        run: npx electron-builder --win portable
+        
+      - name: Upload Windows app
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows-app
+          path: dist/*.exe

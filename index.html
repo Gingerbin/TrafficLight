@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Light</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Titlebar -->
+  <div class="titlebar">
+    <div class="window-controls">
+      <button class="btn settings" id="settingsBtn" title="Settings">⚙</button>
+      <button class="btn minimize" id="minimizeBtn" title="Minimize">−</button>
+      <button class="btn close" id="closeBtn" title="Close">×</button>
+    </div>
+  </div>
+
+  <!-- Traffic Light -->
+  <div class="traffic-light-container">
+    <div class="housing">
+      <div class="light" id="light-red" data-color="red">
+        <div class="bulb"></div>
+      </div>
+      <div class="light" id="light-yellow" data-color="yellow">
+        <div class="bulb"></div>
+      </div>
+      <div class="light" id="light-green" data-color="green">
+        <div class="bulb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer Status -->
+  <div class="timer-status" id="timerStatus" style="display: none;">
+    <div class="timer-header">
+      <div class="timer-phase" id="timerPhase">TIMER</div>
+      <div class="timer-controls">
+        <button class="pause-btn" id="pauseBtn" title="Pause/Resume">⏸</button>
+        <button class="clear-btn" id="clearTimerBtn" title="Clear Timer">✕</button>
+      </div>
+    </div>
+    <div class="timer-countdown" id="timerCountdown">00:00</div>
+    <div class="timer-bar">
+      <div class="timer-progress" id="timerProgress"></div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="settings-modal" id="settingsModal">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button class="close-settings" id="closeSettings">×</button>
+      </div>
+      
+      <div class="settings-section">
+        <h3>Keyboard Shortcuts</h3>
+        <p class="hint">Click any shortcut to change it (ESC to cancel)</p>
+        
+        <div class="macro-list">
+          <div class="macro-item">
+            <span>Green</span>
+            <button class="macro-key" id="key-green">Alt+G</button>
+          </div>
+          <div class="macro-item">
+            <span>Yellow</span>
+            <button class="macro-key" id="key-yellow">Alt+Y</button>
+          </div>
+          <div class="macro-item">
+            <span>Red</span>
+            <button class="macro-key" id="key-red">Alt+R</button>
+          </div>
+          <div class="macro-item">
+            <span>Timer</span>
+            <button class="macro-key" id="key-timer">Alt+S</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Timer Settings</h3>
+        <div class="config-row">
+          <label>Green (seconds)</label>
+          <input type="number" id="greenDuration" value="30" min="1" max="300">
+        </div>
+        <div class="config-row">
+          <label>Yellow Flash (seconds)</label>
+          <input type="number" id="yellowDuration" value="20" min="1" max="120">
+        </div>
+      </div>
+      
+      <div class="settings-footer">
+        <button class="save-btn" id="saveSettings">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rebind Overlay -->
+  <div class="rebind-overlay" id="rebindOverlay" style="display: none;">
+    <div class="rebind-content">
+      <div class="rebind-title">Press New Key Combo</div>
+      <div class="rebind-countdown" id="rebindCountdown">10</div>
+      <div class="rebind-hint">Press ESC to cancel</div>
+      <div class="rebind-current" id="rebindCurrent"></div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
