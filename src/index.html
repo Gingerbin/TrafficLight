@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Light</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Audio for ticker -->
+  <audio id="tickerAudio" loop>
+    <source src="ticker.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Titlebar -->
+    <div class="titlebar" data-tauri-drag-region>
+      <div class="window-controls">
+        <button class="btn settings" id="settingsBtn" title="Settings">⚙</button>
+        <button class="btn minimize" id="minimizeBtn" title="Minimize">−</button>
+        <button class="btn close" id="closeBtn" title="Close">×</button>
+      </div>
+    </div>
+
+    <!-- Traffic Light Section -->
+    <div class="traffic-light-container">
+      <div class="housing">
+        <div class="light-wrapper">
+          <div class="light" id="light-red" data-color="red">
+            <div class="bulb"></div>
+          </div>
+        </div>
+        <div class="light-wrapper">
+          <div class="light" id="light-yellow" data-color="yellow">
+            <div class="bulb"></div>
+          </div>
+        </div>
+        <div class="light-wrapper">
+          <div class="light" id="light-green" data-color="green">
+            <div class="bulb"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compact Control Bar -->
+    <div class="control-bar" id="controlBar">
+      <div class="timer-section" id="timerSection">
+        <span class="timer-countdown" id="timerCountdown">00:00</span>
+        <span class="timer-phase" id="timerPhase">READY</span>
+      </div>
+      
+      <div class="timer-controls" id="timerControls">
+        <button class="control-btn pause" id="pauseBtn" title="Pause/Resume">⏸</button>
+        <button class="control-btn clear" id="clearTimerBtn" title="Clear Timer">✕</button>
+      </div>
+      
+      <button class="start-btn" id="timerStartBtn" title="Start Timer">▶</button>
+    </div>
+
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="settings-modal" id="settingsModal">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button class="close-settings" id="closeSettings">×</button>
+      </div>
+      
+      <div class="settings-section">
+        <h3>Sound Volume</h3>
+        <div class="volume-control">
+          <span class="volume-icon">🔇</span>
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+          <span class="volume-icon">🔊</span>
+          <span class="volume-value" id="volumeValue">50%</span>
+        </div>
+      </div>
+      
+      <div class="settings-section">
+        <h3>Timer Mode</h3>
+        
+        <div class="timer-mode-toggle">
+          <label class="toggle-label">
+            <input type="radio" name="timerMode" value="green" id="modeGreen" checked>
+            <span class="toggle-btn">
+              <span class="toggle-icon">🟢</span>
+              <span class="toggle-text">Time Green<br><small>Green → Yellow → Red</small></span>
+            </span>
+          </label>
+          
+          <label class="toggle-label">
+            <input type="radio" name="timerMode" value="red" id="modeRed">
+            <span class="toggle-btn">
+              <span class="toggle-icon">🔴</span>
+              <span class="toggle-text">Time Red<br><small>Red → Yellow → Green</small></span>
+            </span>
+          </label>
+        </div>
+        
+        <p class="hint">Alt+S starts Green timer, Alt+A starts Red timer. Both pause when running.</p>
+      </div>
+
+      <div class="settings-section">
+        <h3>Timer Settings</h3>
+        
+        <div class="time-input-row">
+          <label>Green/Red Duration</label>
+          <div class="time-inputs">
+            <input type="number" id="greenMinutes" value="0" min="0" max="59">
+            <span>min</span>
+            <input type="number" id="greenSeconds" value="30" min="0" max="59">
+            <span>sec</span>
+          </div>
+        </div>
+        
+        <div class="time-input-row">
+          <label>Yellow Flash Duration</label>
+          <div class="time-inputs">
+            <input type="number" id="yellowMinutes" value="0" min="0" max="59">
+            <span>min</span>
+            <input type="number" id="yellowSeconds" value="20" min="0" max="59">
+            <span>sec</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Keyboard Shortcuts</h3>
+        <p class="hint">Click any shortcut to change it (ESC to cancel)</p>
+        
+        <div class="macro-list">
+          <div class="macro-item">
+            <span>Green Light</span>
+            <button class="macro-key" id="key-green" data-action="green">Alt+G</button>
+          </div>
+          <div class="macro-item">
+            <span>Yellow Light</span>
+            <button class="macro-key" id="key-yellow" data-action="yellow">Alt+Y</button>
+          </div>
+          <div class="macro-item">
+            <span>Red Light</span>
+            <button class="macro-key" id="key-red" data-action="red">Alt+R</button>
+          </div>
+          <div class="macro-item">
+            <span>Start/Pause Green Timer</span>
+            <button class="macro-key" id="key-timer" data-action="timer">Alt+S</button>
+          </div>
+          <div class="macro-item">
+            <span>Start/Pause Red Timer</span>
+            <button class="macro-key" id="key-timerRed" data-action="timerRed">Alt+A</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-footer">
+        <button class="save-btn" id="saveSettings">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rebind Overlay -->
+  <div class="rebind-overlay" id="rebindOverlay">
+    <div class="rebind-content">
+      <div class="rebind-title">Press New Key Combo</div>
+      <div class="rebind-countdown" id="rebindCountdown">10</div>
+      <div class="rebind-hint">Press ESC to cancel</div>
+      <div class="rebind-current" id="rebindCurrent"></div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
