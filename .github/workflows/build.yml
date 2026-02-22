@@ -23,7 +23,7 @@ jobs:
         run: npm install
         
       - name: Build macOS app
-        run: cargo tauri build -- --target aarch64-apple-darwin
+        run: npx tauri build -- --target aarch64-apple-darwin
         
       - name: Upload macOS app
         uses: actions/upload-artifact@v4
