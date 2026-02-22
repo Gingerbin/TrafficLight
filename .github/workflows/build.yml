@@ -32,10 +32,10 @@ jobs:
         with:
           name: macOS-app
           path: |
-            src-tauri/target/release/bundle/dmg/*.dmg
-            src-tauri/target/release/bundle/macos/*.app
+            src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/*.dmg
+            src-tauri/target/aarch64-apple-darwin/release/bundle/macos/*.app
           if-no-files-found: ignore
-
+          
   build-win:
     runs-on: windows-latest
     steps:
