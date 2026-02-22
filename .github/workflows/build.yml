@@ -16,11 +16,14 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
       
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli      
+      
       - name: Install dependencies
         run: npm install
         
       - name: Build macOS app
-        run: npm run tauri build -- --target aarch64-apple-darwin
+        run: cargo tauri build -- --target aarch64-apple-darwin
         
       - name: Upload macOS app
         uses: actions/upload-artifact@v4
@@ -48,7 +51,7 @@ jobs:
         run: npm install
         
       - name: Build Windows app
-        run: npm run tauri build
+        run: cargo tauri build
         
       - name: Upload Windows app
         uses: actions/upload-artifact@v4
