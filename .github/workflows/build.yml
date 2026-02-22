@@ -23,7 +23,7 @@ jobs:
         run: npm install
         
       - name: Build macOS app
-        run: npm tauri build -- --target aarch64-apple-darwin
+        run: npm run tauri build -- --target aarch64-apple-darwin
         
       - name: Upload macOS app
         uses: actions/upload-artifact@v4
@@ -51,7 +51,7 @@ jobs:
         run: npm install
         
       - name: Build Windows app
-        run: npm tauri build
+        run: npm run tauri build
         
       - name: Upload Windows app
         uses: actions/upload-artifact@v4
